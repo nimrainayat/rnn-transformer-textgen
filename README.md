@@ -12,13 +12,12 @@ Implementing RNN and Transformer-based models for text generation
 
 # Features
 ✅ Extracts and pre-processes textual data from websites
+
 ✅ Cleans data using Regular Expressions (REGEX)
+
 ✅ Trains Word2Vec embeddings to understand word relationships
-✅ Develops text generation models using:
 
-Recurrent Neural Networks (RNNs)
-
-Transformer-based architectures
+✅ Develops text generation models using: Recurrent Neural Networks (RNNs), Transformer-based architectures
 
 # Technologies Used
 Python
