@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+  <base href="../" />
+
+  <title>NADRA - Procurement</title>
+
+  <!-- include common vendor stylesheets & fontawesome -->
+
+  <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/lib/fontawesome5pro/fontawesome.min.css" rel="stylesheet" />
+  <link href="/lib/fontawesome5pro/regular.min.css" rel="stylesheet" />
+  <link href="/lib/fontawesome5pro/brands.min.css" rel="stylesheet" />
+  <link href="/lib/fontawesome5pro/solid.min.css" rel="stylesheet" />
+
+
+
+
+  <!-- include vendor stylesheets used in "Starter" page. see "/views//pages/partials/starter/@vendor-stylesheets.hbs" -->
+  <!-- include fonts -->
+  <link href="/theme/font/OpenSans.css" rel="stylesheet" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ace.css -->
+
+  <link href="/theme/css/ace.min.css" rel="stylesheet" />
+  <link href="/theme/css/ace-themes.min.css" rel="stylesheet" />
+  <link href="/lib/datatables/datatables.min.css" rel="stylesheet" />
+  <link href="/lib/aos/aos.min.css" rel="stylesheet" />
+  <!-- favicon -->
+  <link rel="icon" type="image/png" href="/img/favicon/180x180.png" />
+
+  <link rel="icon" href="/img/favicon/32x32.png" sizes="32x32">
+  <link rel="icon" href="/img/favicon/192x192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/img/favicon/180x180.png">
+
+  <meta name="msapplication-TileImage" content="~/img/favicon/270x270.png">
+
+  <link href="/css/site.css" rel="stylesheet" />
+  <link href="/lib/select2/select2.min.css" rel="stylesheet" />
+  <link href="/lib/dropzonejs/dropzone.min.css" rel="stylesheet" />
+
+  <style>
+
+    html {
+      --navbar-height: 5rem;
+      --navbar-sm-height: 3.75rem;
+    }
+
+    /**
+     See @page-script.js
+    */
+    #scroll-down {
+      position: absolute;
+      top: 60vh;
+    }
+
+    #scroll-up {
+      position: absolute;
+      top: 0;
+    }
+
+
+    /* when we scroll down a little bit, navbar becomes fixed (+compact) and appears from top */
+    @keyframes navbarAppearIn {
+      0% {
+        transform: translateY(-100%);
+      }
+
+      100% {
+        transform: none;
+      }
+    }
+
+
+    /* if our ace.css is compiled using sticky: true, then we should make it position: fixed again to fix a few glitches */
+    .navbar-fixed {
+      position: relative;
+      animation: none;
+      transition: none;
+    }
+
+    .navbar-compact {
+      height: 5rem;
+    }
+
+    .navbar-fixed .navbar-inner {
+      position: fixed;
+      top: 0;
+    }
+
+    .navbar-compact .navbar-inner {
+      height: 4rem;
+      animation: navbarAppearIn 300ms;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .navbar .navbar-inner {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+
+
+
+    #navbar-dark.navbar-compact .navbar-inner {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.125);
+    }
+
+
+    /* the shadow for the 3 feature items ... speed, flexibility, etc */
+    .shadow-1 {
+      box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+    }
+
+
+    /* the triangle in light/white version */
+    .shape-triangle {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 12px 20px 12px;
+      border-top-color: transparent !important;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+    }
+    @media screen and (min-width: 768px) {
+      .dropdown-menu {
+        min-width: 300px !important;
+      }
+    }
+  </style>
+
+
+
+  
+
+  <style>
+
+    .facustomize {
+      padding: 10px;
+      font-size: 20px;
+      text-align: center;
+      text-decoration: none;
+      margin: 10px 5px 10px 5px;
+      width: 40px;
+      height: 40px;
+    }
+
+    .fab:hover {
+      opacity: 0.7;
+    }
+
+    .fa-facebook {
+      background: #3B5998;
+      color: white;
+    }
+
+    .fa-twitter {
+      background: #55ACEE;
+      color: white;
+    }
+
+    .fa-google {
+      background: #dd4b39;
+      color: white;
+    }
+
+    .fa-linkedin {
+      background: #007bb5;
+      color: white;
+    }
+
+    .fa-youtube {
+      background: #bb0000;
+      color: white;
+    }
+
+    .fa-instagram {
+      background: #125688;
+      color: white;
+    }
+
+    .fa-pinterest {
+      background: #cb2027;
+      color: white;
+    }
+
+    .fa-snapchat-ghost {
+      background: #fffc00;
+      color: white;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    }
+
+    .fa-skype {
+      background: #00aff0;
+      color: white;
+    }
+
+    .fa-android {
+      background: #a4c639;
+      color: white;
+    }
+
+    .fa-dribbble {
+      background: #ea4c89;
+      color: white;
+    }
+
+    .fa-vimeo {
+      background: #45bbff;
+      color: white;
+    }
+
+    .fa-tumblr {
+      background: #2c4762;
+      color: white;
+    }
+
+    .fa-vine {
+      background: #00b489;
+      color: white;
+    }
+
+    .fa-foursquare {
+      background: #45bbff;
+      color: white;
+    }
+
+    .fa-stumbleupon {
+      background: #eb4924;
+      color: white;
+    }
+
+    .fa-flickr {
+      background: #f40083;
+      color: white;
+    }
+
+    .fa-yahoo {
+      background: #430297;
+      color: white;
+    }
+
+    .fa-soundcloud {
+      background: #ff5500;
+      color: white;
+    }
+
+    .fa-reddit {
+      background: #ff5700;
+      color: white;
+    }
+
+    .fa-rss {
+      background: #ff6600;
+      color: white;
+    }
+  </style>
+
+  <style>
+    /*   .robo14Font {
+            font-size: 14px;
+            font-family: Roboto;
+        }*/
+
+    /*  .playfairfont-main {
+            font-size: 32px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .playfairfont-tile {
+            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+            color: black;
+        }*/
+
+    .card_detailfont {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .start-page-intro {
+      background: url('/img/main_header_image.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /*.numbersfont {
+            font-family: "Open Sans",Arial,sans-serif !important;
+        }*/
+
+    .navbar-shadow {
+      box-shadow: 0 2px 13px 6px rgb(4 9 42 / 8%);
+    }
+
+    .check-list {
+      list-style: none;
+    }
+
+      .check-list li {
+        line-height: 2.0em;
+      }
+
+      .check-list img {
+        width: 20px;
+      }
+
+    .banner-right-img-shadow {
+      -webkit-filter: drop-shadow(0px 10px 50px rgb(0 0 0 / 20%));
+      filter: drop-shadow(0px 10px 50px rgb(0 0 0 / 20%))
+    }
+
+
+    @media screen and (max-width: 1000px) {
+      .how-it-works {
+        content: url('/img/how_it_works_ver.svg');
+        width: 65%;
+      }
+    }
+
+    @media screen and (max-width: 575px) {
+      .text-sm-center {
+        text-align: center !important;
+      }
+
+      .smnone {
+        display: none
+      }
+    }
+
+    @media screen and (max-width: 575px) {
+      .text-sm-90 {
+        font-size: .85em !important;
+      }
+    }
+
+    .rt-row {
+      display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      .lt-row {
+        display: none !important;
+      }
+
+      .rt-row {
+        display: flex;
+      }
+
+      .smnone {
+        display: none
+      }
+    }
+
+
+
+    @media screen and (max-width: 575px) {
+      .flex-xs-column {
+        -ms-flex-direction: column !important;
+        flex-direction: column !important;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .smfont {
+        font-family: 'Poppins', sans-serif;
+        line-height: 32px;
+        font-size: 1em;
+        font-weight: 700;
+        text-align: justify !important;
+        /*font-family: 'Poppins', sans-serif;
+                    font-weight: bold;
+                    font-size: 10px;
+                    */
+      }
+
+      .smwidth100 {
+        width: 100% !important;
+      }
+
+      .smwidth100p {
+        width: 200px !important;
+      }
+
+      .smheight50p {
+        height: 150px !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .smfont {
+        font-family: 'Poppins', sans-serif;
+        line-height: 32px;
+        font-size: 1em;
+        font-weight: 700;
+        text-align: justify !important;
+        /*font-family: 'Poppins', sans-serif;
+                    font-weight:bold;
+                    font-size: 12px;
+                    text-align: justify !important;*/
+      }
+
+      .smwidth100 {
+        width: 100% !important;
+      }
+    }
+  </style>
+
+  <style>
+    body {
+      background-color: #E3F2FD
+    }
+
+    .heading {
+      font-size: 20px;
+      font-weight: 600;
+      color: #3D5AFE
+    }
+
+    .line1 {
+      color: #000;
+      font-size: 12px
+    }
+
+    .line2 {
+      color: #000;
+      font-size: 12px
+    }
+
+    .line3 {
+      color: #000;
+      font-size: 12px
+    }
+
+    .cards {
+      transition: all 0.2s ease;
+      cursor: pointer
+    }
+
+      .cards:hover {
+        box-shadow: 5px 6px 6px 2px #e9ecef;
+        transform: scale(1.025)
+      }
+  </style>
+
+  <link rel="stylesheet" href="/css/carousel.css" />
+  
+
+
+
+  <!-- "Starter" page styles, specific to this page for demo only -->
+</head>
+
+<body>
+  <div class="body-container">
+
+    <div class="pos-abs" id="scroll-down"></div>
+    <div class="pos-abs" id="scroll-up"></div>
+
+
+    
+
+<nav class="navbar navbar-expand-lg" id="navbar-dark">
+  <div class="navbar-inner navbar-shadow">
+      <div class="container">
+
+
+          <button type="button" class="navbar-toggler btn btn-burger burger-times static collapsed d-flex d-lg-none ml-2" data-toggle="collapse" data-target="#navbarMenu1-dark" aria-controls="navbarMenu1-dark" aria-expanded="false" aria-label="Toggle navbar menu">
+              <span class="bars text-dark"></span>
+          </button><!-- mobile navbar toggler button -->
+
+
+          <div class="navbar-intro justify-content-xl-between bgc-transparent">
+              <a class="navbar-brand text-white text-180 w-75 p-4 p-lg-0" href="/">
+                  <img src="/img/nt_logo.svg" />
+
+              </a><!-- /.navbar-brand -->
+          </div>
+
+          <div class="navbar-menu collapse navbar-collapse navbar-backdrop " id="navbarMenu1-dark">
+
+              <div class="navbar-nav">
+                <ul class="nav nav-compact-3">
+
+
+
+                  <li class="nav-item dropdown dropdown-hover mx-3">
+                    <a class=" nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                      ACTIVE
+                      <i class="caret fa fa-angle-down d-none d-lg-block"></i>
+                      <i class="caret fa fa-angle-left d-block d-lg-none"></i>
+                    </a>
+                    <div class="p-0 dropdown-menu bgc-white ace-scrollbar">
+                      <div class="d-flex flex-column">
+
+                        <div class="row mx-0">
+
+                          <div class="col-lg-12 col-12 d-flex flex-column align-items-start ">
+
+                            <ul class="list-style-none px-0">
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/">
+                                  All
+                                </a>
+                              </li>
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/?proc_type=tender">
+                                  Tenders
+                                </a>
+                              </li>
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/?proc_type=rfq">
+                                  RFQ's
+                                </a>
+                              </li>
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/?proc_type=notification">
+                                  Notifications
+                                </a>
+                              </li>
+
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/?proc_type=ber">
+                                  Bid Evaluation Results
+                                </a>
+                              </li>
+
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/?proc_type=ca">
+                                  Contract Awards
+                                </a>
+                              </li>
+                            </ul>
+
+                          </div>
+
+
+
+                        </div><!-- .row: mega -->
+
+
+                      </div>
+                    </div>
+                  </li>
+
+
+
+
+                  <li class="nav-item dropdown dropdown-hover mx-3">
+                    <a class=" nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                      ARCHIVED
+                      <i class="caret fa fa-angle-down d-none d-lg-block"></i>
+                      <i class="caret fa fa-angle-left d-block d-lg-none"></i>
+                    </a>
+                    <div class="p-0 dropdown-menu bgc-white ace-scrollbar">
+                      <div class="d-flex flex-column ">
+
+                        <div class="row mx-0">
+
+                          <div class="col-lg-12 col-12 d-flex flex-column align-items-start">
+
+                            <ul class="list-style-none px-0">
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/Tenders/ArchivedIndex">
+                                  All
+                                </a>
+                              </li>
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/Tenders/ArchivedIndex?proc_type=tender">
+                                  Tenders
+                                </a>
+                              </li>
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/Tenders/ArchivedIndex?proc_type=rfq">
+                                  RFQ's
+                                </a>
+                              </li>
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/Tenders/ArchivedIndex?proc_type=notification">
+                                  Notifications
+                                </a>
+                              </li>
+
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/Tenders/ArchivedIndex?proc_type=ber">
+                                  Bid Evaluation Results
+                                </a>
+                              </li>
+
+                              <li class="nav-item dropdown mx-1px">
+                                <a class="nav-link px-45 mb-1" href="/Tenders/ArchivedIndex?proc_type=ca">
+                                  Contract Awards
+                                </a>
+                              </li>
+                            </ul>
+
+                          </div>
+
+
+
+                        </div><!-- .row: mega -->
+
+
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="nav-item dropdown mx-3">
+                    <a class="nav-link btn-light-primary btn-h-primary btn-h-text-white radius-4px brc-primary border-1 px-4 mb-1" href="https://www.nadra.gov.pk">MAIN WEBSITE</a>
+                  </li>
+
+
+
+
+                </ul><!-- /.navbar-nav menu -->
+              </div><!-- /.navbar-nav -->
+
+          </div><!-- /.navbar-menu.navbar-collapse -->
+
+
+          <button type="button" class="d-style btn btn-burger static collapsed mr-2 px-4 navbar-toggler d-flex d-lg-none" data-toggle="collapse" data-target="#navbarMenu2-dark" aria-controls="navbarMenu2-dark" aria-expanded="false" aria-label="Toggle navbar menu">
+              <i class="fa fa-caret-down d-collapsed text-80"></i>
+              <i class="fa fa-caret-up d-n-collapsed text-80"></i>
+
+              <i class="fa fa-user ml-2"></i>
+          </button><!-- mobile navbar toggler button -->
+
+
+
+
+      </div><!-- /.container -->
+  </div><!-- /.navbar-inner -->
+</nav>
+
+
+
+    <div class="main-container bgc-white">
+
+        <div role="main" class="main-content">
+
+            <div class="page-content p-0">
+                
+
+
+<div id="page-intro-dark" class=" text-white">
+  
+
+
+    <div id="myCarousel" class="d-none d-lg-block carousel slide " data-ride="carousel" data-interval="3000">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
+      </ol>
+      <div class="carousel-inner ">
+
+
+        <div class="carousel-item py-2 py-xl-4 py-xl-5 active">
+
+          <img src="/img/slider_images/Tenders.png" />
+
+          <div class="h-100 container d-flex align-content-center">
+
+            <div class=" container d-flex align-content-center">
+              <div class="col-12 col-md-12 d-flex flex-column justify-content-center text-sm-center text-md-left text-lg-left text-xl-left  " data-aos="fade-right" data-aos-delay="100">
+
+                <h1 class="">
+                  <span class="text-sm-90 text-120 font-bolder text-dark">
+                    Active Tenders
+                  </span>
+
+                </h1>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item py-2 py-xl-4 py-xl-5">
+
+          <img src="/img/slider_images/Request for Quotation.png" />
+
+          <div class="h-100 container d-flex align-content-center">
+
+            <div class="d-flex align-content-center">
+              <div class="col-12 col-md-12 d-flex flex-column justify-content-center text-sm-center text-md-left text-lg-left text-xl-left  " data-aos="fade-right" data-aos-delay="100">
+
+                <h1 class="">
+                  <span class="text-sm-90 text-120 font-bolder text-dark">
+                    Active RFQs
+                  </span>
+
+                </h1>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item py-2 py-xl-4 py-xl-5">
+          <img src="/img/slider_images/Notification-letters.png" />
+
+
+          <div class="h-100 container d-flex align-content-center">
+
+            <div class="d-flex align-content-center">
+              <div class="col-12 col-md-12 d-flex flex-column justify-content-center text-sm-center text-md-left text-lg-left text-xl-left  " data-aos="fade-right" data-aos-delay="100">
+
+                <h1 class="">
+                  <span class="text-sm-90 text-120 font-bolder text-dark">
+                    Notifications
+                  </span>
+
+                </h1>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item py-2 py-xl-4 py-xl-5">
+          <img src="/img/slider_images/Contract.png" />
+
+
+          <div class="h-100 container d-flex align-content-center">
+
+            <div class="d-flex align-content-center">
+              <div class="col-12 col-md-12 d-flex flex-column justify-content-center text-sm-center text-md-left text-lg-left text-xl-left  " data-aos="fade-right" data-aos-delay="100">
+
+                <h1 class="">
+                  <span class="text-sm-90 text-120 font-bolder text-dark">
+                    Contract Awards
+                  </span>
+
+                </h1>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item py-2 py-xl-4 py-xl-5">
+          <img src="/img/slider_images/Evaluation.png" />
+
+
+          <div class="h-100 container d-flex align-content-center">
+
+            <div class="d-flex align-content-center">
+              <div class="col-12 col-md-12 d-flex flex-column justify-content-center text-sm-center text-md-left text-lg-left text-xl-left  " data-aos="fade-right" data-aos-delay="100">
+
+                <h1 class="">
+                  <span class="text-sm-90 text-120 font-bolder text-dark">
+                    Bid Evaluation Results
+                  </span>
+
+                </h1>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+
+<!-- /.row -->
+
+</div><!-- /#page-intro-dark -->
+
+<div class="row mt-4">
+  <div class="container pos-rel py-2 px-0">
+    <div class="d-flex flex-column justify-content-center">
+      <div class="col-12 col-md-8 align-self-center">
+        <div class="">
+
+          <div class="d-flex justify-content-center my-3 ">
+
+            <div class=" d-inline-flex align-items-center mb-0 mt-0 col-12">
+              <div class="input-group">
+                <input type="text" id="searchText" class="form-control py-4 b-r-0" placeholder="Search ..." name="searchText" value="">
+                <div class="input-group-append bg-white ">
+                  <button type="button" id="go" onclick="searchJobs()" class="btn btn-light-primary btn-h-primary btn-h-text-white brc-primary border-1">
+                    <i class="fa fa-search w-3"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="h-100 d-flex flex-column h-100 align-items-center p-sm-0 py-15">
+
+        <div class="p-3 col-12 col-md-10">
+          <input type="hidden" id="procType" name="procType" value="" />
+          <div id="Tenders" class="flex-grow-1">
+
+
+          </div>
+          <div class="text-center" style="display: block;">
+            <div id="busyIndictor" class="typing-dots text-200 text-dark mx-md-1" style="display: block;">
+              <span class="typing-dot text-600" style="font-size:80px">.</span>
+              <span class="typing-dot text-600" style="font-size:80px">.</span>
+              <span class="typing-dot text-600" style="font-size:80px">.</span>
+            </div>
+            <p id="endOfContent" class="scroller-status__message infinite-scroll-last mt-45" style="display: none;">
+              No more
+              
+              
+              
+              
+              
+              <span>Tenders, RFQ's, Notifications, Bid Evaluation Results, Contract Awards</span>
+              to load
+            </p>
+            <img id="endOfContentIcon" class="mt-45 w-10 d-none" src="/img/empty-box.svg" />
+            <p class="scroller-status__message infinite-scroll-error" style="display: none;">No more pages to load</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+
+
+                
+            </div>
+            <footer>
+                <div class="footer h-auto bgc-primary-l4">
+    <div class="footer-inner py-45">
+        <div class="container  aos-init aos-animate" data-aos="fade">
+            <div class="d-flex flex-xs-column flex-sm-column flex-md-row flex-lg-row">
+                <div class="flex-fill">
+                    <div class="d-flex ">
+                        <div class="px-1">
+                            <img src="/img/address_icn.png" style="max-width: 85%;">
+                        </div>
+                        <div class="px-2 pb-2  text-left">
+                            <h4 class="text-primary">
+                                Address
+                            </h4>
+
+                            <p class="text-90">
+                                State bank of Pakistan Building <br> Shahrah-i-Jamhuriat, G-5/2 <br> Islamabad, Islamabad Capital Territory 44000
+                            </p>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex-fill">
+
+                    <div class="d-flex flex-column">
+                        <div class="row">
+
+                            <div class="text-grey-l5 px-3">
+                                <i class="far fa-clock fa-2x"></i>
+                            </div>
+                            <div class="text-left">
+                                <h4 class="text-primary">
+                                    Office Timings
+                                </h4>
+
+                                <p class="text-90">
+                                    09:00 AM to 05:00 PM <br />
+                                    (Monday to Friday)
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="flex-fill">
+                    <div class="d-flex flex-column">
+                        <div class="row text-left">
+
+                            <div class="text-grey-l5 px-3">
+                                <i class="far fa-phone-alt fa-2x"></i>
+                            </div>
+                            <div class="text-left">
+                                <h4 class="text-primary">
+                                    Phone
+                                </h4>
+
+                                <p class="text-90">
+                                    (051) 111 786 100
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div><!-- /.container -->
+    </div><!-- /.footer-inner -->
+</div>
+
+                
+<div class="text-center py-2 bgc-primary-l2 border-t-1   ">
+    <span class="text-dark-m3 text-105">
+        &copy; 2024 <span><a class="text-dark" href="https://www.nadra.gov.pk">National Database and Registration Authority</a></span>
+    </span>
+</div>
+
+
+
+<div class="footer-tools">
+    <a href="#" class="btn-scroll-up btn btn-dark px-25 py-2 text-95 border-2 radius-round mb-2 mr-2">
+        <i class="fa fa-arrow-up w-2 h-2"></i>
+    </a>
+</div>
+
+            </footer>
+        </div>
+    </div>
+  </div>
+
+
+  <!-- include common vendor scripts used in demo pages -->
+  <script src="/lib/jquery/dist/jquery.js"></script>
+
+  <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+  <!-- include vendor scripts used in "Starter" page. see "/views//pages/partials/starter/@vendor-scripts.hbs" -->
+  <!-- include ace.js -->
+
+  <script src="/theme/js/ace.min.js"></script>
+
+
+
+  <script src="/lib/jquery-maskedinput/jquery.maskedinput.min.js"></script>
+  <script src="/lib/sweetalert2/sweetalert2.min.js"></script>
+  <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+  <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+  <script src="/lib/jquery-validation-unobtrusive/expressive.annotations.validate.min.js"></script>
+  <script src="/lib/select2/select2.min.js"></script>
+  <script src="/lib/dropzonejs/dropzone.min.js"></script>
+  <script src="/js/site.js"></script>
+
+  <script src="/lib/aos/aos.min.js"></script>
+  
+  <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/ViewScripts/TendersVs.js"></script>
+
+
+
+  
+
+</body>
+
+</html>
